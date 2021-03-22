@@ -46,7 +46,8 @@ func main() {
 
 	for !rl.WindowShouldClose() {
 
-		phys.RunPhysicsStep()
+		// phys.RunPhysicsStep()
+		phys.UpdatePhysics()
 
 		if needsReset {
 			floor = phys.CreatePhysicsBodyRectangle(

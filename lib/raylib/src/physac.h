@@ -75,6 +75,7 @@
 *     3. This notice may not be removed or altered from any source distribution.
 *
 **********************************************************************************************/
+#pragma once // cforgo
 
 #if !defined(PHYSAC_H)
 #define PHYSAC_H
@@ -124,8 +125,9 @@
 
 typedef enum PhysicsShapeType { PHYSICS_CIRCLE = 0, PHYSICS_POLYGON } PhysicsShapeType;
 
-// Previously defined to be used in PhysicsShape struct as circular dependencies
-typedef struct PhysicsBodyData *PhysicsBody;
+// cforgo
+// // Previously defined to be used in PhysicsShape struct as circular dependencies
+// typedef struct PhysicsBodyData *PhysicsBody;
 
 #if defined(PHYSAC_DEFINE_VECTOR2_TYPE)
 // Vector2 type
@@ -194,6 +196,10 @@ typedef struct PhysicsManifoldData {
     float dynamicFriction;                      // Mixed dynamic friction during collision
     float staticFriction;                       // Mixed static friction during collision
 } PhysicsManifoldData, *PhysicsManifold;
+
+// cforgo
+// Previously defined to be used in PhysicsShape struct as circular dependencies
+typedef struct PhysicsBodyData *PhysicsBody;
 
 #if defined(__cplusplus)
 extern "C" {                                    // Prevents name mangling of functions

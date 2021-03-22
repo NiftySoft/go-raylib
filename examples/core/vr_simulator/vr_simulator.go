@@ -22,27 +22,27 @@ func main() {
 	rl.InitWindow(screenWidth, screenHeight, "raylib [core] example - vr simulator")
 	defer rl.CloseWindow()
 
-	rl.InitVrSimulator()
-	defer rl.CloseVrSimulator()
+	device := rl.VrDeviceInfo{}
 
-	hmd := rl.VrDeviceInfo{}
+	device.HResolution = 2160
+	device.VResolution = 1200
+	device.HScreenSize = 0.133793
+	device.VScreenSize = 0.0669
+	device.VScreenCenter = 0.04678
+	device.EyeToScreenDistance = 0.041
+	device.LensSeparationDistance = 0.07
+	device.InterpupillaryDistance = 0.07
 
-	hmd.HResolution = 2160
-	hmd.VResolution = 1200
-	hmd.HScreenSize = 0.133793
-	hmd.VScreenSize = 0.0669
-	hmd.VScreenCenter = 0.04678
-	hmd.EyeToScreenDistance = 0.041
-	hmd.LensSeparationDistance = 0.07
-	hmd.InterpupillaryDistance = 0.07
-
-	hmd.LensDistortionValues = [4]float32{1.0, 0.22, 0.24, 0}
-	hmd.ChromaAbCorrection = [4]float32{0.996, -0.004, 1.014, 0}
+	device.LensDistortionValues = [4]float32{1.0, 0.22, 0.24, 0}
+	device.ChromaAbCorrection = [4]float32{0.996, -0.004, 1.014, 0}
 
 	distortion := rl.LoadShader("", fmt.Sprintf("../core/resources/distortion%d.fs", GLSL_VERSION))
 	defer rl.UnloadShader(distortion)
 
-	rl.SetVrConfiguration(hmd, distortion)
+	rl.InitVrSimulator(device)
+	defer rl.CloseVrSimulator()
+
+	target := rl.LoadRenderTexture(rl.GetScreenWidth(), rl.GetScreenHeight())
 
 	camera := rl.NewCamera(
 		rl.NewVector3(5.0, 2.0, 5.0),
@@ -62,15 +62,15 @@ func main() {
 
 		rl.UpdateCamera(&camera)
 
-		if rl.IsKeyPressed(int32(rl.KEY_SPACE)) {
-			rl.ToggleVrMode()
-		}
+		// if rl.IsKeyPressed(int32(rl.KEY_SPACE)) {
+		// 	rl.ToggleVrMode()
+		// }
 
 		rl.BeginDrawing()
 
 		rl.ClearBackground(rl.RayWhite)
 
-		rl.BeginVrDrawing()
+		rl.BeginVrDrawing(target)
 
 		rl.BeginMode3D(rl.Camera3D(camera))
 
@@ -82,6 +82,14 @@ func main() {
 		rl.EndMode3D()
 
 		rl.EndVrDrawing()
+
+		rl.BeginShaderMode(distortion)
+
+		rl.DrawTextureRec(rl.Texture2D(target.Texture),
+			rl.NewRectangle(0, 0, float32(target.Texture.Width), -float32(target.Texture.Height)),
+			rl.NewVector2(0, 0), rl.White)
+		
+		rl.EndShaderMode()
 
 		rl.DrawFPS(10, 10)
 

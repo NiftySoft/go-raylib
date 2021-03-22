@@ -120,12 +120,12 @@ func main() {
 
 		rg.GuiSetStyle(int32(rg.BUTTON), int32(rg.TEXT_ALIGNMENT), int32(rg.GUI_TEXT_ALIGN_CENTER))
 
-		rg.GuiSetTooltip("Save current file.")
+		// rg.GuiSetTooltip("Save current file.")
 
 		if rg.GuiButton(rg.NewRectangle(25, 255, 125, 30), rg.GuiIconText(int32(rg.RICON_FILE_SAVE), "Save File")) {
 			showTextInputBox = true
 		}
-		rg.GuiClearTooltip()
+		// rg.GuiClearTooltip()
 
 		rg.GuiGroupBox(rg.NewRectangle(25, 310, 125, 150), "STATES")
 		rg.GuiLock()
