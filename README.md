@@ -7,6 +7,7 @@ go-raylib is a simple and easy-to-use library to enjoy videogames programming.
 Header     | Supported          |
 ---------  | ------------------ |
 raylib.h   | :heavy_check_mark: |
+rlgl.h     | :heavy_check_mark: |
 raymath.h  | :heavy_check_mark: |
 raygui.h   | :heavy_check_mark: |
 ricons.h   | :heavy_check_mark: |
