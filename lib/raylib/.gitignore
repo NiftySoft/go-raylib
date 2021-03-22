@@ -82,7 +82,7 @@ DerivedData/
 
 # Jetbrains project
 .idea/
-cmake-build-debug/
+cmake-build-*/
 
 # CMake stuff
 CMakeCache.txt
@@ -103,4 +103,5 @@ GPATH
 GRTAGS
 GTAGS
 
+# Unignore These compiled binaries
 !a/**/*.a

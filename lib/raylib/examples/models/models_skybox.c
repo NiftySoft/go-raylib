@@ -10,6 +10,9 @@
 ********************************************************************************************/
 
 #include "raylib.h"
+#include "rlgl.h"
+
+bool useHDR = false;
 
 int main(void)
 {
@@ -34,8 +37,9 @@ int main(void)
 #else   // PLATFORM_RPI, PLATFORM_ANDROID, PLATFORM_WEB
     skybox.materials[0].shader = LoadShader("resources/shaders/glsl100/skybox.vs", "resources/shaders/glsl100/skybox.fs");
 #endif
-    SetShaderValue(skybox.materials[0].shader, GetShaderLocation(skybox.materials[0].shader, "environmentMap"), (int[1]){ MAP_CUBEMAP }, UNIFORM_INT);
-    SetShaderValue(skybox.materials[0].shader, GetShaderLocation(skybox.materials[0].shader, "vflipped"), (int[1]){ 1 }, UNIFORM_INT);
+    SetShaderValue(skybox.materials[0].shader, GetShaderLocation(skybox.materials[0].shader, "environmentMap"), (int[1]){ MATERIAL_MAP_CUBEMAP }, SHADER_UNIFORM_INT);
+    SetShaderValue(skybox.materials[0].shader, GetShaderLocation(skybox.materials[0].shader, "doGamma"), (int[1]) { useHDR ? 1 : 0 }, SHADER_UNIFORM_INT);
+    SetShaderValue(skybox.materials[0].shader, GetShaderLocation(skybox.materials[0].shader, "vflipped"), (int[1]){ useHDR ? 1 : 0 }, SHADER_UNIFORM_INT);
 
     // Load cubemap shader and setup required shader locations
 #if defined(PLATFORM_DESKTOP)
@@ -43,20 +47,31 @@ int main(void)
 #else   // PLATFORM_RPI, PLATFORM_ANDROID, PLATFORM_WEB
     Shader shdrCubemap = LoadShader("resources/shaders/glsl100/cubemap.vs", "resources/shaders/glsl100/cubemap.fs");
 #endif
-    SetShaderValue(shdrCubemap, GetShaderLocation(shdrCubemap, "equirectangularMap"), (int[1]){ 0 }, UNIFORM_INT);
+    SetShaderValue(shdrCubemap, GetShaderLocation(shdrCubemap, "equirectangularMap"), (int[1]){ 0 }, SHADER_UNIFORM_INT);
 
-    // Load HDR panorama (sphere) texture
-    char panoFileName[256] = { 0 };
-    TextCopy(panoFileName, "resources/dresden_square_2k.hdr");
-    Texture2D panorama = LoadTexture(panoFileName);
+    char skyboxFileName[256] = { 0 };
 
-    // Generate cubemap (texture with 6 quads-cube-mapping) from panorama HDR texture
-    // NOTE 1: New texture is generated rendering to texture, shader calculates the sphere->cube coordinates mapping
-    // NOTE 2: It seems on some Android devices WebGL, fbo does not properly support a FLOAT-based attachment,
-    // despite texture can be successfully created.. so using UNCOMPRESSED_R8G8B8A8 instead of UNCOMPRESSED_R32G32B32A32
-    skybox.materials[0].maps[MAP_CUBEMAP].texture = GenTextureCubemap(shdrCubemap, panorama, 1024, UNCOMPRESSED_R8G8B8A8);
+    if (useHDR)
+    {
+        TextCopy(skyboxFileName, "resources/dresden_square_2k.hdr");
 
-    UnloadTexture(panorama);    // Texture not required anymore, cubemap already generated
+        // Load HDR panorama (sphere) texture
+        Texture2D panorama = panorama = LoadTexture(skyboxFileName);
+
+        // Generate cubemap (texture with 6 quads-cube-mapping) from panorama HDR texture
+        // NOTE 1: New texture is generated rendering to texture, shader calculates the sphere->cube coordinates mapping
+        // NOTE 2: It seems on some Android devices WebGL, fbo does not properly support a FLOAT-based attachment,
+        // despite texture can be successfully created.. so using PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 instead of PIXELFORMAT_UNCOMPRESSED_R32G32B32A32
+        skybox.materials[0].maps[MATERIAL_MAP_CUBEMAP].texture = GenTextureCubemap(shdrCubemap, panorama, 1024, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
+
+        UnloadTexture(panorama);    // Texture not required anymore, cubemap already generated
+    }
+    else
+    {
+        Image img = LoadImage("resources/skybox.png");
+        skybox.materials[0].maps[MATERIAL_MAP_CUBEMAP].texture = LoadTextureCubemap(img, CUBEMAP_LAYOUT_AUTO_DETECT);    // CUBEMAP_LAYOUT_PANORAMA
+        UnloadImage(img);
+    }
 
     SetCameraMode(camera, CAMERA_FIRST_PERSON);  // Set a first person camera mode
 
@@ -81,13 +96,23 @@ int main(void)
                 if (IsFileExtension(droppedFiles[0], ".png;.jpg;.hdr;.bmp;.tga"))
                 {
                     // Unload current cubemap texture and load new one
-                    UnloadTexture(skybox.materials[0].maps[MAP_CUBEMAP].texture);
-                    panorama = LoadTexture(droppedFiles[0]);
-                    TextCopy(panoFileName, droppedFiles[0]);
-                    
-                    // Generate cubemap from panorama texture
-                    skybox.materials[0].maps[MAP_CUBEMAP].texture = GenTextureCubemap(shdrCubemap, panorama, 1024, UNCOMPRESSED_R8G8B8A8);
-                    UnloadTexture(panorama);
+                    UnloadTexture(skybox.materials[0].maps[MATERIAL_MAP_CUBEMAP].texture);
+                    if (useHDR)
+                    {
+                        Texture2D panorama = LoadTexture(droppedFiles[0]);
+                        
+                        // Generate cubemap from panorama texture
+                        skybox.materials[0].maps[MATERIAL_MAP_CUBEMAP].texture = GenTextureCubemap(shdrCubemap, panorama, 1024, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
+                        UnloadTexture(panorama);
+                    }
+                    else
+                    {
+                        Image img = LoadImage(droppedFiles[0]);
+                        skybox.materials[0].maps[MATERIAL_MAP_CUBEMAP].texture = LoadTextureCubemap(img, CUBEMAP_LAYOUT_AUTO_DETECT);
+                        UnloadImage(img);
+                    }
+
+                    TextCopy(skyboxFileName, droppedFiles[0]);
                 }
             }
 
@@ -102,11 +127,23 @@ int main(void)
             ClearBackground(RAYWHITE);
 
             BeginMode3D(camera);
-                DrawModel(skybox, (Vector3){0, 0, 0}, 1.0f, WHITE);
+            
+                // We are inside the cube, we need to disable backface culling!
+                rlDisableBackfaceCulling();
+                rlDisableDepthMask();
+                    DrawModel(skybox, (Vector3){0, 0, 0}, 1.0f, WHITE);
+                rlEnableBackfaceCulling();
+                rlEnableDepthMask();
+                
                 DrawGrid(10, 1.0f);
+                
             EndMode3D();
 
-            DrawText(TextFormat("Panorama image from hdrihaven.com: %s", GetFileName(panoFileName)), 10, GetScreenHeight() - 20, 10, BLACK);
+            if (useHDR)
+                DrawText(TextFormat("Panorama image from hdrihaven.com: %s", GetFileName(skyboxFileName)), 10, GetScreenHeight() - 20, 10, BLACK);
+            else
+                DrawText(TextFormat(": %s", GetFileName(skyboxFileName)), 10, GetScreenHeight() - 20, 10, BLACK);
+
             DrawFPS(10, 10);
 
         EndDrawing();
@@ -116,7 +153,7 @@ int main(void)
     // De-Initialization
     //--------------------------------------------------------------------------------------
     UnloadShader(skybox.materials[0].shader);
-    UnloadTexture(skybox.materials[0].maps[MAP_CUBEMAP].texture);
+    UnloadTexture(skybox.materials[0].maps[MATERIAL_MAP_CUBEMAP].texture);
     
     UnloadModel(skybox);        // Unload skybox model
 

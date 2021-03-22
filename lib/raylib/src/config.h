@@ -27,12 +27,6 @@
 
 #define RAYLIB_VERSION  "3.5"
 
-// Edit to control what features Makefile'd raylib is compiled with
-#if defined(RAYLIB_CMAKE)
-    // Edit CMakeOptions.txt for CMake instead
-    #include "cmake/config.h"
-#else
-
 //------------------------------------------------------------------------------------
 // Module: core - Configuration Flags
 //------------------------------------------------------------------------------------
@@ -46,6 +40,9 @@
 #define SUPPORT_SSH_KEYBOARD_RPI    1
 // Draw a mouse pointer on screen
 #define SUPPORT_MOUSE_CURSOR_NATIVE 1
+// Setting a higher resolution can improve the accuracy of time-out intervals in wait functions.
+// However, it can also reduce overall system performance, because the thread scheduler switches tasks more often.
+#define SUPPORT_WINMM_HIGHRES_TIMER 1
 // Use busy wait loop for timing sync, if not defined, a high-resolution timer is setup and used
 //#define SUPPORT_BUSY_WAIT_LOOP      1
 // Use a half-busy wait loop, in this case frame sleeps for some time and runs a busy-wait-loop at the end
@@ -60,6 +57,8 @@
 #define SUPPORT_COMPRESSION_API     1
 // Support saving binary data automatically to a generated storage.data file. This file is managed internally.
 #define SUPPORT_DATA_STORAGE        1
+// Support VR simulation functionality (stereo rendering)
+#define SUPPORT_VR_SIMULATOR        1
 
 // core: Configuration values
 //------------------------------------------------------------------------------------
@@ -77,14 +76,11 @@
 
 #define STORAGE_DATA_FILE  "storage.data"       // Automatic storage filename
 
+#define MAX_DECOMPRESSION_SIZE        64        // Max size allocated for decompression in MB
+
 
 //------------------------------------------------------------------------------------
-// Module: rlgl - Configuration Flags
-//------------------------------------------------------------------------------------
-// Support VR simulation functionality (stereo rendering)
-#define SUPPORT_VR_SIMULATOR        1
-
-// rlgl: Configuration values
+// Module: rlgl - Configuration values
 //------------------------------------------------------------------------------------
 #if defined(GRAPHICS_API_OPENGL_11) || defined(GRAPHICS_API_OPENGL_33)
     #define DEFAULT_BATCH_BUFFER_ELEMENTS   8192    // Default internal render batch limits
@@ -96,6 +92,7 @@
 #define DEFAULT_BATCH_DRAWCALLS        256      // Default number of batch draw calls (by state changes: mode, texture)
 
 #define MAX_MATRIX_STACK_SIZE           32      // Maximum size of internal Matrix stack
+#define MAX_MESH_VERTEX_BUFFERS          7      // Maximum vertex buffers (VBO) per mesh
 #define MAX_SHADER_LOCATIONS            32      // Maximum number of shader locations supported
 #define MAX_MATERIAL_MAPS               12      // Maximum number of shader maps supported
 
@@ -190,7 +187,7 @@
 #define SUPPORT_FILEFORMAT_WAV      1
 #define SUPPORT_FILEFORMAT_OGG      1
 #define SUPPORT_FILEFORMAT_XM       1
-//#define SUPPORT_FILEFORMAT_MOD      1
+#define SUPPORT_FILEFORMAT_MOD      1
 #define SUPPORT_FILEFORMAT_MP3      1
 //#define SUPPORT_FILEFORMAT_FLAC     1
 
@@ -198,14 +195,15 @@
 //------------------------------------------------------------------------------------
 #define AUDIO_DEVICE_FORMAT    ma_format_f32    // Device output format (miniaudio: float-32bit)
 #define AUDIO_DEVICE_CHANNELS              2    // Device output channels: stereo
-#define AUDIO_DEVICE_SAMPLE_RATE       44100    // Device output sample rate
+#define AUDIO_DEVICE_SAMPLE_RATE           0    // Device sample rate (device default)
 
-#define DEFAULT_AUDIO_BUFFER_SIZE       4096    // Default audio buffer size for streaming
 #define MAX_AUDIO_BUFFER_POOL_CHANNELS    16    // Maximum number of audio pool channels
 
 //------------------------------------------------------------------------------------
 // Module: utils - Configuration Flags
 //------------------------------------------------------------------------------------
+// Standard file io library (stdio.h) included
+#define SUPPORT_STANDARD_FILEIO
 // Show TRACELOG() output messages
 // NOTE: By default LOG_DEBUG traces not shown
 #define SUPPORT_TRACELOG            1
@@ -215,6 +213,3 @@
 //------------------------------------------------------------------------------------
 #define MAX_TRACELOG_MSG_LENGTH          128    // Max length of one trace-log message
 #define MAX_UWP_MESSAGES                 512    // Max UWP messages to process
-
-
-#endif  //defined(RAYLIB_CMAKE)

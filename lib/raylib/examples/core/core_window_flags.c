@@ -36,7 +36,7 @@ int main(void)
     */
 
     // Set configuration flags for window creation
-    SetConfigFlags(FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT | FLAG_WINDOW_HIGHDPI);
+    //SetConfigFlags(FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT | FLAG_WINDOW_HIGHDPI);
     InitWindow(screenWidth, screenHeight, "raylib [core] example - window flags");
 
     Vector2 ballPosition = { GetScreenWidth() / 2, GetScreenHeight() / 2 };
@@ -145,7 +145,7 @@ int main(void)
 
         DrawFPS(10, 10);
 
-        DrawText(FormatText("Screen Size: [%i, %i]", GetScreenWidth(), GetScreenHeight()), 10, 40, 10, GREEN);
+        DrawText(TextFormat("Screen Size: [%i, %i]", GetScreenWidth(), GetScreenHeight()), 10, 40, 10, GREEN);
 
         // Draw window state info
         DrawText("Following flags can be set after window creation:", 10, 60, 10, GRAY);
