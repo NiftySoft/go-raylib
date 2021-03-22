@@ -34,7 +34,7 @@ func main() {
 	texture := rl.LoadTexture("../models/resources/guy/guytex.png")
 	defer rl.UnloadTexture(texture)
 
-	rl.SetMaterialTexture(model.Materialser(0), rl.MAP_DIFFUSE, texture)
+	rl.SetMaterialTexture(model.Materialser(0), rl.MATERIAL_MAP_DIFFUSE, texture)
 
 	animsCount := int32(0)
 	anims := rl.LoadModelAnimations("../models/resources/guy/guyanim.iqm", &animsCount)

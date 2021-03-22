@@ -28,13 +28,13 @@ func main() {
 	camera.Target = rl.NewVector3(0, 8, 0)
 	camera.Up = rl.NewVector3(0, 1.6, 0)
 	camera.Fovy = 45.0
-	camera.Type = int32(rl.CAMERA_PERSPECTIVE)
+	camera.Projection = int32(rl.CAMERA_PERSPECTIVE)
 
 	ray := rl.Ray{}
 
 	tower := rl.LoadModel("../models/resources/models/turret.obj")
 	texture := rl.LoadTexture("../models/resources/models/turret_diffuse.png")
-	tower.Materialser(0).Mapser(rl.MAP_DIFFUSE).Texture = rl.Texture(texture)
+	tower.Materialser(0).Mapser(rl.MATERIAL_MAP_DIFFUSE).Texture = rl.Texture(texture)
 	defer func() {
 		rl.UnloadTexture(texture)
 		rl.UnloadModel(tower)

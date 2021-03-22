@@ -28,7 +28,7 @@ func main() {
 
 	model := rl.LoadModel("../models/resources/plane.obj")
 	defer func() {
-		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(rl.MAP_DIFFUSE).Texture))
+		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(rl.MATERIAL_MAP_DIFFUSE).Texture))
 		rl.UnloadModel(model)
 
 		rl.UnloadRenderTexture(framebuffer)
@@ -38,9 +38,9 @@ func main() {
 		rl.UnloadTexture(texPitch)
 		rl.UnloadTexture(texPlane)
 	}()
-	model.Materialser(0).Mapser(rl.MAP_DIFFUSE).Texture = rl.Texture(rl.LoadTexture("../models/resources/plane_diffuse.png"))
+	model.Materialser(0).Mapser(rl.MATERIAL_MAP_DIFFUSE).Texture = rl.Texture(rl.LoadTexture("../models/resources/plane_diffuse.png"))
 
-	rl.GenTextureMipmaps((*rl.Texture2D)(&model.Materialser(0).Mapser(rl.MAP_DIFFUSE).Texture))
+	rl.GenTextureMipmaps((*rl.Texture2D)(&model.Materialser(0).Mapser(rl.MATERIAL_MAP_DIFFUSE).Texture))
 
 	camera := rl.NewCamera(
 		rl.NewVector3(0, 60.0, -120.0),

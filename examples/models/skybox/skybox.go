@@ -43,13 +43,13 @@ func main() {
 		skybox.Materialser(0).Shader,
 		rl.GetShaderLocation(skybox.Materialser(0).Shader, "environmentMap"),
 		unsafe.Pointer(&[1]int32{int32(rl.MAP_CUBEMAP)}),
-		int32(rl.UNIFORM_INT),
+		int32(rl.SHADER_UNIFORM_INT),
 	)
 	rl.SetShaderValue(
 		skybox.Materialser(0).Shader,
 		rl.GetShaderLocation(skybox.Materialser(0).Shader, "vflipped"),
 		unsafe.Pointer(&[1]int32{1}),
-		int32(rl.UNIFORM_INT),
+		int32(rl.SHADER_UNIFORM_INT),
 	)
 
 	shdrCubemap := rl.LoadShader("../models/resources/shaders/glsl330/cubemap.vs", "../models/resources/shaders/glsl330/cubemap.fs")
@@ -57,7 +57,7 @@ func main() {
 		shdrCubemap,
 		rl.GetShaderLocation(shdrCubemap, "equirectangularMap"),
 		unsafe.Pointer(&[1]int32{0}),
-		int32(rl.UNIFORM_INT),
+		int32(rl.SHADER_UNIFORM_INT),
 	)
 
 	texHDR := rl.LoadTexture("../models/resources/dresden_square.hdr")

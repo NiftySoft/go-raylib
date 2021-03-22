@@ -42,6 +42,10 @@ TRANSLATOR:
       - { action: accept, from: ^MOUSE_ }
       - { action: accept, from: ^GAMEPAD_ }
       - { action: accept, from: ^LOC_ }
+      - { action: accept, from: ^SHADER_ }
+      - { action: accept, from: ^MATERIAL_ }
+      - { action: accept, from: ^PIXELFORMAT_ }
+      - { action: accept, from: ^TEXTURE_ }
       - { action: accept, from: ^UNIFORM_ }
       - { action: accept, from: ^MAP_ }
       - { action: accept, from: ^UNCOMPRESSED_ }
@@ -54,6 +58,7 @@ TRANSLATOR:
       - { action: accept, from: ^GESTURE_ }
       - { action: accept, from: ^CAMERA_ }
       - { action: accept, from: ^NPT_ }
+      - { action: accept, from: ^NPATCH_ }
 
       - { action: ignore, from: "(?i)Trace" }
       - { action: ignore, from: "SpriteFont" }
@@ -639,7 +644,7 @@ TRANSLATOR:
       - { action: ignore, from: __ }
     type:
       # raylib
-      - { action: accept, from: ^ConfigFlag$ }
+      - { action: accept, from: ^ConfigFlag }
       - { action: accept, from: ^Keyboard }
       - { action: accept, from: ^Android }
       - { action: accept, from: ^Mouse }

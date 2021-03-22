@@ -71,14 +71,14 @@ func CreateLight(ltype LightType, pos rl.Vector3, targ rl.Vector3, color rl.Colo
 
 func UpdateLightValues(shader rl.Shader, light Light) {
 
-	rl.SetShaderValue(shader, light.enabledLoc, unsafe.Pointer(&light.enabled), int32(rl.UNIFORM_INT))
-	rl.SetShaderValue(shader, light.typeLoc, unsafe.Pointer(&light.ltype), int32(rl.UNIFORM_INT))
+	rl.SetShaderValue(shader, light.enabledLoc, unsafe.Pointer(&light.enabled), int32(rl.SHADER_UNIFORM_INT))
+	rl.SetShaderValue(shader, light.typeLoc, unsafe.Pointer(&light.ltype), int32(rl.SHADER_UNIFORM_INT))
 
 	position := [3]float32{light.position.X, light.position.Y, light.position.Z}
-	rl.SetShaderValue(shader, light.posLoc, unsafe.Pointer(&position), int32(rl.UNIFORM_VEC3))
+	rl.SetShaderValue(shader, light.posLoc, unsafe.Pointer(&position), int32(rl.SHADER_UNIFORM_VEC3))
 
 	target := [3]float32{light.target.X, light.target.Y, light.target.Z}
-	rl.SetShaderValue(shader, light.targetLoc, unsafe.Pointer(&target), int32(rl.UNIFORM_VEC3))
+	rl.SetShaderValue(shader, light.targetLoc, unsafe.Pointer(&target), int32(rl.SHADER_UNIFORM_VEC3))
 
 	diff := [4]float32{
 		float32(light.color.R) / float32(255),
@@ -86,5 +86,5 @@ func UpdateLightValues(shader rl.Shader, light Light) {
 		float32(light.color.B) / float32(255),
 		float32(light.color.A) / float32(255),
 	}
-	rl.SetShaderValue(shader, light.colorLoc, unsafe.Pointer(&diff), int32(rl.UNIFORM_VEC4))
+	rl.SetShaderValue(shader, light.colorLoc, unsafe.Pointer(&diff), int32(rl.SHADER_UNIFORM_VEC4))
 }

@@ -29,7 +29,7 @@ func main() {
 	target := rl.LoadRenderTexture(gameScreenWidth, gameScreenHeight)
 	defer rl.UnloadRenderTexture(target)
 
-	rl.SetTextureFilter(rl.Texture2D(target.Texture), int32(rl.FILTER_BILINEAR))
+	rl.SetTextureFilter(rl.Texture2D(target.Texture), int32(rl.TEXTURE_FILTER_BILINEAR))
 
 	colors := [10]rl.Color{}
 	for i := range colors {

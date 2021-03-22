@@ -36,12 +36,12 @@ func main() {
 	for !rl.WindowShouldClose() {
 
 		if rl.IsKeyPressed(int32(rl.KEY_SPACE)) {
-			if camera.Type == int32(rl.CAMERA_PERSPECTIVE) {
+			if camera.Projection == int32(rl.CAMERA_PERSPECTIVE) {
 				camera.Fovy = WIDTH_ORTHOGRAPHIC
-				camera.Type = int32(rl.CAMERA_ORTHOGRAPHIC)
+				camera.Projection = int32(rl.CAMERA_ORTHOGRAPHIC)
 			} else {
 				camera.Fovy = FOVY_PERSPECTIVE
-				camera.Type = int32(rl.CAMERA_PERSPECTIVE)
+				camera.Projection = int32(rl.CAMERA_PERSPECTIVE)
 			}
 		}
 
@@ -71,9 +71,9 @@ func main() {
 
 		rl.DrawText("Press Spacebar to switch camera type", 10, rl.GetScreenHeight()-30, 20, rl.DarkGray)
 
-		if camera.Type == int32(rl.CAMERA_ORTHOGRAPHIC) {
+		if camera.Projection == int32(rl.CAMERA_ORTHOGRAPHIC) {
 			rl.DrawText("ORTHOGRAPHIC", 10, 40, 20, rl.Black)
-		} else if camera.Type == int32(rl.CAMERA_PERSPECTIVE) {
+		} else if camera.Projection == int32(rl.CAMERA_PERSPECTIVE) {
 			rl.DrawText("PERSPECTIVE", 10, 40, 20, rl.Black)
 		}
 

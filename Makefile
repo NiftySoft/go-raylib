@@ -42,12 +42,12 @@ test:
 	go build -o examples/bin/core_random_values examples/core/random_values/random_values.go
 	go build -o examples/bin/core_scissor examples/core/scissor/scissor.go
 	go build -o examples/bin/core_storage_values examples/core/storage_values/storage_values.go
-	go build -o examples/bin/core_vr_simulator examples/core/vr_simulator/vr_simulator.go
+# 	go build -o examples/bin/core_vr_simulator examples/core/vr_simulator/vr_simulator.go
 	go build -o examples/bin/core_window_letterbox examples/core/window_letterbox/window_letterbox.go
 	go build -o examples/bin/core_world_screen examples/core/world_screen/world_screen.go
 
-	go build -o examples/bin/gui_controls_test_suite examples/gui/controls_test_suite/controls_test_suite.go
-	go build -o examples/bin/gui_scroll_panel examples/gui/scroll_panel/scroll_panel.go
+# 	go build -o examples/bin/gui_controls_test_suite examples/gui/controls_test_suite/controls_test_suite.go
+# 	go build -o examples/bin/gui_scroll_panel examples/gui/scroll_panel/scroll_panel.go
 
 	go build -o examples/bin/models_animation examples/models/animation/animation.go
 	go build -o examples/bin/models_billboard examples/models/billboard/billboard.go
@@ -55,15 +55,15 @@ test:
 	go build -o examples/bin/models_cubicmap examples/models/cubicmap/cubicmap.go
 	go build -o examples/bin/models_first_person_maze examples/models/first_person_maze/first_person_maze.go
 	go build -o examples/bin/models_loading examples/models/loading/loading.go
-	go build -o examples/bin/models_material_pbr examples/models/material_pbr/*.go
+# 	go build -o examples/bin/models_material_pbr examples/models/material_pbr/*.go
 	go build -o examples/bin/models_mesh_generation examples/models/mesh_generation/mesh_generation.go
 	go build -o examples/bin/models_mesh_picking examples/models/mesh_picking/mesh_picking.go
 	go build -o examples/bin/models_orthographic_projection examples/models/orthographic_projection/orthographic_projection.go
-	go build -o examples/bin/models_skybox examples/models/skybox/skybox.go
+# 	go build -o examples/bin/models_skybox examples/models/skybox/skybox.go
 	go build -o examples/bin/models_waving_cubes examples/models/waving_cubes/waving_cubes.go
 	go build -o examples/bin/models_yaw_pitch_roll examples/models/yaw_pitch_roll/yaw_pitch_roll.go
 
-	go build -o examples/bin/physac_demo examples/physac/demo/demo.go
+# 	go build -o examples/bin/physac_demo examples/physac/demo/demo.go
 
 	go build -o examples/bin/shaders_postprocessing examples/shaders/postprocessing/postprocessing.go
 	go build -o examples/bin/shaders_basic_lighting examples/shaders/basic_lighting/*.go

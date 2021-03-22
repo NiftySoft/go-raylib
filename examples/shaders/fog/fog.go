@@ -41,9 +41,9 @@ func main() {
 		rl.UnloadModel(modelC)
 	}()
 
-	modelA.Materialser(0).Mapser(rl.MAP_DIFFUSE).Texture = rl.Texture(texture)
-	modelB.Materialser(0).Mapser(rl.MAP_DIFFUSE).Texture = rl.Texture(texture)
-	modelC.Materialser(0).Mapser(rl.MAP_DIFFUSE).Texture = rl.Texture(texture)
+	modelA.Materialser(0).Mapser(rl.MATERIAL_MAP_DIFFUSE).Texture = rl.Texture(texture)
+	modelB.Materialser(0).Mapser(rl.MATERIAL_MAP_DIFFUSE).Texture = rl.Texture(texture)
+	modelC.Materialser(0).Mapser(rl.MATERIAL_MAP_DIFFUSE).Texture = rl.Texture(texture)
 
 	shader := rl.LoadShader(
 		fmt.Sprintf("../shaders/resources/shaders/glsl%d/base_lighting.vs", GLSL_VERSION),
@@ -51,15 +51,15 @@ func main() {
 	)
 	defer rl.UnloadShader(shader)
 
-	*shader.Locser(int32(rl.LOC_MATRIX_MODEL)) = rl.GetShaderLocation(shader, "matModel")
-	*shader.Locser(int32(rl.LOC_VECTOR_VIEW)) = rl.GetShaderLocation(shader, "viewPos")
+	*shader.Locser(int32(rl.SHADER_LOC_MATRIX_MODEL)) = rl.GetShaderLocation(shader, "matModel")
+	*shader.Locser(int32(rl.SHADER_LOC_VECTOR_VIEW)) = rl.GetShaderLocation(shader, "viewPos")
 
 	ambientLoc := rl.GetShaderLocation(shader, "ambient")
-	rl.SetShaderValue(shader, ambientLoc, unsafe.Pointer(&[4]float32{0.2, 0.2, 0.2, 1.0}), int32(rl.UNIFORM_VEC4))
+	rl.SetShaderValue(shader, ambientLoc, unsafe.Pointer(&[4]float32{0.2, 0.2, 0.2, 1.0}), int32(rl.SHADER_UNIFORM_VEC4))
 
 	fogDensity := float32(0.15) // must be float32
 	fogDensityLoc := rl.GetShaderLocation(shader, "fogDensity")
-	rl.SetShaderValue(shader, fogDensityLoc, unsafe.Pointer(&fogDensity), int32(rl.UNIFORM_FLOAT))
+	rl.SetShaderValue(shader, fogDensityLoc, unsafe.Pointer(&fogDensity), int32(rl.SHADER_UNIFORM_FLOAT))
 
 	modelA.Materialser(0).Shader = shader
 	modelB.Materialser(0).Shader = shader
@@ -89,12 +89,12 @@ func main() {
 			}
 		}
 
-		rl.SetShaderValue(shader, fogDensityLoc, unsafe.Pointer(&fogDensity), int32(rl.UNIFORM_FLOAT))
+		rl.SetShaderValue(shader, fogDensityLoc, unsafe.Pointer(&fogDensity), int32(rl.SHADER_UNIFORM_FLOAT))
 
 		modelA.Transform = rl.MatrixMultiply(modelA.Transform, rl.MatrixRotateX(-0.025))
 		modelA.Transform = rl.MatrixMultiply(modelA.Transform, rl.MatrixRotateZ(0.012))
 
-		rl.SetShaderValue(shader, *shader.Locser(int32(rl.LOC_VECTOR_VIEW)), unsafe.Pointer(&camera.Position.X), int32(rl.UNIFORM_VEC3))
+		rl.SetShaderValue(shader, *shader.Locser(int32(rl.SHADER_LOC_VECTOR_VIEW)), unsafe.Pointer(&camera.Position.X), int32(rl.SHADER_UNIFORM_VEC3))
 
 		rl.BeginDrawing()
 

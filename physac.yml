@@ -15,6 +15,7 @@ PARSER:
   SourcesPaths: ["lib/raylib/src/physac.h"]
   Defines:
     PHYSAC_STANDALONE: 1
+    PHYSAC_DEFINE_VECTOR2_TYPE: 1
 
 TRANSLATOR:
   ConstRules:

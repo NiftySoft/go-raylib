@@ -46,11 +46,11 @@ func main() {
 
 	screenDims := [2]float32{float32(screenWidth), float32(screenHeight)}
 
-	rl.SetShaderValue(shader, rl.GetShaderLocation(shader, "screenDims"), unsafe.Pointer(&screenDims), int32(rl.UNIFORM_VEC2))
+	rl.SetShaderValue(shader, rl.GetShaderLocation(shader, "screenDims"), unsafe.Pointer(&screenDims), int32(rl.SHADER_UNIFORM_VEC2))
 
-	rl.SetShaderValue(shader, cLoc, unsafe.Pointer(&c), int32(rl.UNIFORM_VEC2))
-	rl.SetShaderValue(shader, zoomLoc, unsafe.Pointer(&zoom), int32(rl.UNIFORM_FLOAT))
-	rl.SetShaderValue(shader, offsetLoc, unsafe.Pointer(&offset), int32(rl.UNIFORM_VEC2))
+	rl.SetShaderValue(shader, cLoc, unsafe.Pointer(&c), int32(rl.SHADER_UNIFORM_VEC2))
+	rl.SetShaderValue(shader, zoomLoc, unsafe.Pointer(&zoom), int32(rl.SHADER_UNIFORM_FLOAT))
+	rl.SetShaderValue(shader, offsetLoc, unsafe.Pointer(&offset), int32(rl.SHADER_UNIFORM_VEC2))
 
 	target := rl.LoadRenderTexture(screenWidth, screenHeight)
 	defer rl.UnloadRenderTexture(target)
@@ -90,7 +90,7 @@ func main() {
 				c[1] = POINTS_OF_INTEREST[5][1]
 			}
 
-			rl.SetShaderValue(shader, cLoc, unsafe.Pointer(&c), int32(rl.UNIFORM_VEC2))
+			rl.SetShaderValue(shader, cLoc, unsafe.Pointer(&c), int32(rl.SHADER_UNIFORM_VEC2))
 		}
 
 		if rl.IsKeyPressed(int32(rl.KEY_SPACE)) {
@@ -129,14 +129,14 @@ func main() {
 				offsetSpeed = rl.NewVector2(0, 0)
 			}
 
-			rl.SetShaderValue(shader, zoomLoc, unsafe.Pointer(&zoom), int32(rl.UNIFORM_FLOAT))
-			rl.SetShaderValue(shader, offsetLoc, unsafe.Pointer(&offset), int32(rl.UNIFORM_VEC2))
+			rl.SetShaderValue(shader, zoomLoc, unsafe.Pointer(&zoom), int32(rl.SHADER_UNIFORM_FLOAT))
+			rl.SetShaderValue(shader, offsetLoc, unsafe.Pointer(&offset), int32(rl.SHADER_UNIFORM_VEC2))
 
 			amount := rl.GetFrameTime() * incrementSpeed * 0.0005
 			c[0] += amount
 			c[1] += amount
 
-			rl.SetShaderValue(shader, cLoc, unsafe.Pointer(&c), int32(rl.UNIFORM_VEC2))
+			rl.SetShaderValue(shader, cLoc, unsafe.Pointer(&c), int32(rl.SHADER_UNIFORM_VEC2))
 		}
 
 		rl.BeginDrawing()

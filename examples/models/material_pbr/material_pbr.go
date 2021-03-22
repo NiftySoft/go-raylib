@@ -36,14 +36,14 @@ func main() {
 
 	model := rl.LoadModel("../models/resources/pbr/trooper.obj")
 	defer func() {
-		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(int32(rl.MAP_ALBEDO)).Texture))
-		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(int32(rl.MAP_NORMAL)).Texture))
-		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(int32(rl.MAP_METALNESS)).Texture))
-		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(int32(rl.MAP_ROUGHNESS)).Texture))
-		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(int32(rl.MAP_OCCLUSION)).Texture))
-		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(int32(rl.MAP_IRRADIANCE)).Texture))
-		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(int32(rl.MAP_PREFILTER)).Texture))
-		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(int32(rl.MAP_BRDF)).Texture))
+		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(int32(rl.MATERIAL_MAP_ALBEDO)).Texture))
+		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(int32(rl.MATERIAL_MAP_NORMAL)).Texture))
+		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(int32(rl.MATERIAL_MAP_METALNESS)).Texture))
+		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(int32(rl.MATERIAL_MAP_ROUGHNESS)).Texture))
+		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(int32(rl.MATERIAL_MAP_OCCLUSION)).Texture))
+		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(int32(rl.MATERIAL_MAP_IRRADIANCE)).Texture))
+		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(int32(rl.MATERIAL_MAP_PREFILTER)).Texture))
+		rl.UnloadTexture(rl.Texture2D(model.Materialser(0).Mapser(int32(rl.SHADER_LOC_MAP_BRDF)).Texture))
 
 		rl.UnloadShader(model.Materialser(0).Shader)
 
@@ -100,9 +100,9 @@ func main() {
 
 		rl.SetShaderValue(
 			model.Materialser(0).Shader,
-			*model.Materialser(0).Shader.Locser(int32(rl.LOC_VECTOR_VIEW)),
+			*model.Materialser(0).Shader.Locser(int32(rl.SHADER_LOC_VECTOR_VIEW)),
 			unsafe.Pointer(&cameraPos),
-			int32(rl.UNIFORM_VEC3),
+			int32(rl.SHADER_UNIFORM_VEC3),
 		)
 
 		rl.BeginDrawing()
@@ -129,23 +129,23 @@ func LoadMaterialPBR(albedo rl.Color, metalness float32, roughness float32) rl.M
 
 	mat.Shader = rl.LoadShader("../models/resources/shaders/glsl330/pbr.vs", "../models/resources/shaders/glsl330/pbr.fs")
 
-	*mat.Shader.Locser(int32(rl.LOC_MAP_ALBEDO)) = rl.GetShaderLocation(mat.Shader, "albedo.sampler")
-	*mat.Shader.Locser(int32(rl.LOC_MAP_METALNESS)) = rl.GetShaderLocation(mat.Shader, "metalness.sampler")
-	*mat.Shader.Locser(int32(rl.LOC_MAP_NORMAL)) = rl.GetShaderLocation(mat.Shader, "normals.sampler")
-	*mat.Shader.Locser(int32(rl.LOC_MAP_ROUGHNESS)) = rl.GetShaderLocation(mat.Shader, "roughness.sampler")
-	*mat.Shader.Locser(int32(rl.LOC_MAP_OCCLUSION)) = rl.GetShaderLocation(mat.Shader, "occlusion.sampler")
+	*mat.Shader.Locser(int32(rl.SHADER_LOC_MAP_ALBEDO)) = rl.GetShaderLocation(mat.Shader, "albedo.sampler")
+	*mat.Shader.Locser(int32(rl.SHADER_LOC_MAP_METALNESS)) = rl.GetShaderLocation(mat.Shader, "metalness.sampler")
+	*mat.Shader.Locser(int32(rl.SHADER_LOC_MAP_NORMAL)) = rl.GetShaderLocation(mat.Shader, "normals.sampler")
+	*mat.Shader.Locser(int32(rl.SHADER_LOC_MAP_ROUGHNESS)) = rl.GetShaderLocation(mat.Shader, "roughness.sampler")
+	*mat.Shader.Locser(int32(rl.SHADER_LOC_MAP_OCCLUSION)) = rl.GetShaderLocation(mat.Shader, "occlusion.sampler")
 
-	*mat.Shader.Locser(int32(rl.LOC_MAP_IRRADIANCE)) = rl.GetShaderLocation(mat.Shader, "irradianceMap")
-	*mat.Shader.Locser(int32(rl.LOC_MAP_PREFILTER)) = rl.GetShaderLocation(mat.Shader, "prefilterMap")
-	*mat.Shader.Locser(int32(rl.LOC_MAP_BRDF)) = rl.GetShaderLocation(mat.Shader, "brdfLUT")
-	*mat.Shader.Locser(int32(rl.LOC_MATRIX_MODEL)) = rl.GetShaderLocation(mat.Shader, "matModel")
-	*mat.Shader.Locser(int32(rl.LOC_VECTOR_VIEW)) = rl.GetShaderLocation(mat.Shader, "viewPos")
+	*mat.Shader.Locser(int32(rl.SHADER_LOC_MAP_IRRADIANCE)) = rl.GetShaderLocation(mat.Shader, "irradianceMap")
+	*mat.Shader.Locser(int32(rl.SHADER_LOC_MAP_PREFILTER)) = rl.GetShaderLocation(mat.Shader, "prefilterMap")
+	*mat.Shader.Locser(int32(rl.SHADER_LOC_MAP_BRDF)) = rl.GetShaderLocation(mat.Shader, "brdfLUT")
+	*mat.Shader.Locser(int32(rl.SHADER_LOC_MATRIX_MODEL)) = rl.GetShaderLocation(mat.Shader, "matModel")
+	*mat.Shader.Locser(int32(rl.SHADER_LOC_VECTOR_VIEW)) = rl.GetShaderLocation(mat.Shader, "viewPos")
 
-	mat.Mapser(int32(rl.MAP_ALBEDO)).Texture = rl.Texture(rl.LoadTexture("../models/resources/pbr/trooper_albedo.png"))
-	mat.Mapser(int32(rl.MAP_NORMAL)).Texture = rl.Texture(rl.LoadTexture("../models/resources/pbr/trooper_normals.png"))
-	mat.Mapser(int32(rl.MAP_METALNESS)).Texture = rl.Texture(rl.LoadTexture("../models/resources/pbr/trooper_metalness.png"))
-	mat.Mapser(int32(rl.MAP_ROUGHNESS)).Texture = rl.Texture(rl.LoadTexture("../models/resources/pbr/trooper_roughness.png"))
-	mat.Mapser(int32(rl.MAP_OCCLUSION)).Texture = rl.Texture(rl.LoadTexture("../models/resources/pbr/trooper_ao.png"))
+	mat.Mapser(int32(rl.MATERIAL_MAP_ALBEDO)).Texture = rl.Texture(rl.LoadTexture("../models/resources/pbr/trooper_albedo.png"))
+	mat.Mapser(int32(rl.MATERIAL_MAP_NORMAL)).Texture = rl.Texture(rl.LoadTexture("../models/resources/pbr/trooper_normals.png"))
+	mat.Mapser(int32(rl.MATERIAL_MAP_METALNESS)).Texture = rl.Texture(rl.LoadTexture("../models/resources/pbr/trooper_metalness.png"))
+	mat.Mapser(int32(rl.MATERIAL_MAP_ROUGHNESS)).Texture = rl.Texture(rl.LoadTexture("../models/resources/pbr/trooper_roughness.png"))
+	mat.Mapser(int32(rl.MATERIAL_MAP_OCCLUSION)).Texture = rl.Texture(rl.LoadTexture("../models/resources/pbr/trooper_ao.png"))
 
 	shdrCubemap := rl.LoadShader("../models/resources/shaders/glsl330/cubemap.vs", "../models/resources/shaders/glsl330/cubemap.fs")
 
@@ -155,16 +155,16 @@ func LoadMaterialPBR(albedo rl.Color, metalness float32, roughness float32) rl.M
 
 	shdrBRDF := rl.LoadShader("../models/resources/shaders/glsl330/brdf.vs", "../models/resources/shaders/glsl330/brdf.fs")
 
-	rl.SetShaderValue(shdrCubemap, rl.GetShaderLocation(shdrCubemap, "equirectangularMap"), unsafe.Pointer(&[1]int32{0}), int32(rl.UNIFORM_INT))
-	rl.SetShaderValue(shdrIrradiance, rl.GetShaderLocation(shdrIrradiance, "environmentMap"), unsafe.Pointer(&[1]int32{0}), int32(rl.UNIFORM_INT))
-	rl.SetShaderValue(shdrPrefilter, rl.GetShaderLocation(shdrPrefilter, "environmentMap"), unsafe.Pointer(&[1]int32{0}), int32(rl.UNIFORM_INT))
+	rl.SetShaderValue(shdrCubemap, rl.GetShaderLocation(shdrCubemap, "equirectangularMap"), unsafe.Pointer(&[1]int32{0}), int32(rl.SHADER_UNIFORM_INT))
+	rl.SetShaderValue(shdrIrradiance, rl.GetShaderLocation(shdrIrradiance, "environmentMap"), unsafe.Pointer(&[1]int32{0}), int32(rl.SHADER_UNIFORM_INT))
+	rl.SetShaderValue(shdrPrefilter, rl.GetShaderLocation(shdrPrefilter, "environmentMap"), unsafe.Pointer(&[1]int32{0}), int32(rl.SHADER_UNIFORM_INT))
 
 	texHDR := rl.LoadTexture("../models/resources/dresden_square.hdr")
 	cubemap := rl.GenTextureCubemap(shdrCubemap, texHDR, int32(CUBEMAP_SIZE), int32(rl.UNCOMPRESSED_R32G32B32))
 
-	mat.Mapser(int32(rl.MAP_IRRADIANCE)).Texture = rl.Texture(rl.GenTextureIrradiance(shdrIrradiance, cubemap, int32(IRRADIANCE_SIZE)))
-	mat.Mapser(int32(rl.MAP_PREFILTER)).Texture = rl.Texture(rl.GenTexturePrefilter(shdrPrefilter, cubemap, int32(PREFILTERED_SIZE)))
-	mat.Mapser(int32(rl.MAP_BRDF)).Texture = rl.Texture(rl.GenTextureBRDF(shdrBRDF, int32(BRDF_SIZE)))
+	mat.Mapser(int32(rl.MATERIAL_MAP_IRRADIANCE)).Texture = rl.Texture(rl.GenTextureIrradiance(shdrIrradiance, cubemap, int32(IRRADIANCE_SIZE)))
+	mat.Mapser(int32(rl.MATERIAL_MAP_PREFILTER)).Texture = rl.Texture(rl.GenTexturePrefilter(shdrPrefilter, cubemap, int32(PREFILTERED_SIZE)))
+	mat.Mapser(int32(rl.SHADER_LOC_MAP_BRDF)).Texture = rl.Texture(rl.GenTextureBRDF(shdrBRDF, int32(BRDF_SIZE)))
 
 	rl.UnloadTexture(rl.Texture2D(cubemap))
 	rl.UnloadTexture(texHDR)
@@ -174,26 +174,26 @@ func LoadMaterialPBR(albedo rl.Color, metalness float32, roughness float32) rl.M
 	rl.UnloadShader(shdrPrefilter)
 	rl.UnloadShader(shdrBRDF)
 
-	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MAP_ALBEDO)).Texture), int32(rl.FILTER_BILINEAR))
-	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MAP_NORMAL)).Texture), int32(rl.FILTER_BILINEAR))
-	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MAP_METALNESS)).Texture), int32(rl.FILTER_BILINEAR))
-	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MAP_ROUGHNESS)).Texture), int32(rl.FILTER_BILINEAR))
-	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MAP_OCCLUSION)).Texture), int32(rl.FILTER_BILINEAR))
+	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MATERIAL_MAP_ALBEDO)).Texture), int32(rl.FILTER_BILINEAR))
+	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MATERIAL_MAP_NORMAL)).Texture), int32(rl.FILTER_BILINEAR))
+	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MATERIAL_MAP_METALNESS)).Texture), int32(rl.FILTER_BILINEAR))
+	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MATERIAL_MAP_ROUGHNESS)).Texture), int32(rl.FILTER_BILINEAR))
+	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MATERIAL_MAP_OCCLUSION)).Texture), int32(rl.FILTER_BILINEAR))
 
-	rl.SetShaderValue(mat.Shader, rl.GetShaderLocation(mat.Shader, "albedo.useSampler"), unsafe.Pointer(&[1]int32{1}), int32(rl.UNIFORM_INT))
-	rl.SetShaderValue(mat.Shader, rl.GetShaderLocation(mat.Shader, "normals.useSampler"), unsafe.Pointer(&[1]int32{1}), int32(rl.UNIFORM_INT))
-	rl.SetShaderValue(mat.Shader, rl.GetShaderLocation(mat.Shader, "metalness.useSampler"), unsafe.Pointer(&[1]int32{1}), int32(rl.UNIFORM_INT))
-	rl.SetShaderValue(mat.Shader, rl.GetShaderLocation(mat.Shader, "roughness.useSampler"), unsafe.Pointer(&[1]int32{1}), int32(rl.UNIFORM_INT))
-	rl.SetShaderValue(mat.Shader, rl.GetShaderLocation(mat.Shader, "occlusion.useSampler"), unsafe.Pointer(&[1]int32{1}), int32(rl.UNIFORM_INT))
+	rl.SetShaderValue(mat.Shader, rl.GetShaderLocation(mat.Shader, "albedo.useSampler"), unsafe.Pointer(&[1]int32{1}), int32(rl.SHADER_UNIFORM_INT))
+	rl.SetShaderValue(mat.Shader, rl.GetShaderLocation(mat.Shader, "normals.useSampler"), unsafe.Pointer(&[1]int32{1}), int32(rl.SHADER_UNIFORM_INT))
+	rl.SetShaderValue(mat.Shader, rl.GetShaderLocation(mat.Shader, "metalness.useSampler"), unsafe.Pointer(&[1]int32{1}), int32(rl.SHADER_UNIFORM_INT))
+	rl.SetShaderValue(mat.Shader, rl.GetShaderLocation(mat.Shader, "roughness.useSampler"), unsafe.Pointer(&[1]int32{1}), int32(rl.SHADER_UNIFORM_INT))
+	rl.SetShaderValue(mat.Shader, rl.GetShaderLocation(mat.Shader, "occlusion.useSampler"), unsafe.Pointer(&[1]int32{1}), int32(rl.SHADER_UNIFORM_INT))
 
 	renderModeLoc := rl.GetShaderLocation(mat.Shader, "renderMode")
-	rl.SetShaderValue(mat.Shader, renderModeLoc, unsafe.Pointer(&[1]int32{0}), int32(rl.UNIFORM_INT))
+	rl.SetShaderValue(mat.Shader, renderModeLoc, unsafe.Pointer(&[1]int32{0}), int32(rl.SHADER_UNIFORM_INT))
 
-	mat.Mapser(int32(rl.MAP_ALBEDO)).Color = albedo
-	mat.Mapser(int32(rl.MAP_NORMAL)).Color = rl.NewColor(128, 128, 255, 255)
-	mat.Mapser(int32(rl.MAP_METALNESS)).Value = metalness
-	mat.Mapser(int32(rl.MAP_ROUGHNESS)).Value = roughness
-	mat.Mapser(int32(rl.MAP_OCCLUSION)).Value = 1.0
+	mat.Mapser(int32(rl.MATERIAL_MAP_ALBEDO)).Color = albedo
+	mat.Mapser(int32(rl.MATERIAL_MAP_NORMAL)).Color = rl.NewColor(128, 128, 255, 255)
+	mat.Mapser(int32(rl.MATERIAL_MAP_METALNESS)).Value = metalness
+	mat.Mapser(int32(rl.MATERIAL_MAP_ROUGHNESS)).Value = roughness
+	mat.Mapser(int32(rl.MATERIAL_MAP_OCCLUSION)).Value = 1.0
 	mat.Mapser(int32(rl.MAP_EMISSION)).Value = 0.5
 	mat.Mapser(int32(rl.MAP_HEIGHT)).Value = 0.5
 

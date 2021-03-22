@@ -29,7 +29,7 @@ func main() {
 	fontPosition := rl.NewVector2(40, float32(screenHeight)/2-80)
 	textSize := rl.NewVector2(0, 0)
 
-	rl.SetTextureFilter(rl.Texture2D(font.Texture), int32(rl.FILTER_POINT))
+	rl.SetTextureFilter(rl.Texture2D(font.Texture), int32(rl.TEXTURE_FILTER_POINT))
 	currentFontFilter := 0
 
 	rl.SetTargetFPS(60)
@@ -40,15 +40,15 @@ func main() {
 
 		if rl.IsKeyPressed(int32(rl.KEY_ONE)) {
 
-			rl.SetTextureFilter(rl.Texture2D(font.Texture), int32(rl.FILTER_POINT))
+			rl.SetTextureFilter(rl.Texture2D(font.Texture), int32(rl.TEXTURE_FILTER_POINT))
 			currentFontFilter = 0
 		} else if rl.IsKeyPressed(int32(rl.KEY_TWO)) {
 
-			rl.SetTextureFilter(rl.Texture2D(font.Texture), int32(rl.FILTER_BILINEAR))
+			rl.SetTextureFilter(rl.Texture2D(font.Texture), int32(rl.TEXTURE_FILTER_BILINEAR))
 			currentFontFilter = 1
 		} else if rl.IsKeyPressed(int32(rl.KEY_THREE)) {
 
-			rl.SetTextureFilter(rl.Texture2D(font.Texture), int32(rl.FILTER_TRILINEAR))
+			rl.SetTextureFilter(rl.Texture2D(font.Texture), int32(rl.TEXTURE_FILTER_TRILINEAR))
 			currentFontFilter = 2
 		}
 

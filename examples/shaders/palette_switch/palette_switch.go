@@ -89,7 +89,7 @@ func main() {
 			currentPalette = MAX_PALETTES - 1
 		}
 
-		rl.SetShaderValueV(shader, paletteLoc, unsafe.Pointer(&palettes[currentPalette]), int32(rl.UNIFORM_IVEC3), COLORS_PER_PALETTE)
+		rl.SetShaderValueV(shader, paletteLoc, unsafe.Pointer(&palettes[currentPalette]), int32(rl.SHADER_UNIFORM_IVEC3), COLORS_PER_PALETTE)
 
 		rl.BeginDrawing()
 

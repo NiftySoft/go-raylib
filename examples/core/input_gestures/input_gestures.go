@@ -41,7 +41,7 @@ func main() {
 
 		if rl.CheckCollisionPointRec(touchPosition, touchArea) && currentGesture != int32(rl.GESTURE_NONE) {
 			if currentGesture != lastGesture {
-				switch rl.GestureType(currentGesture) {
+				switch rl.Gestures(currentGesture) {
 				case rl.GESTURE_TAP:
 					gestureStrings[gesturesCount] = "GESTURE TAP"
 					break

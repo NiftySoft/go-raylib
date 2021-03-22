@@ -51,7 +51,7 @@ func main() {
 	shader := rl.LoadShader("", fmt.Sprintf("../text/resources/shaders/glsl%d/sdf.fs", GLSL_VERSION))
 	defer rl.UnloadShader(shader)
 
-	rl.SetTextureFilter(rl.Texture2D(fontSDF.Texture), int32(rl.FILTER_BILINEAR))
+	rl.SetTextureFilter(rl.Texture2D(fontSDF.Texture), int32(rl.TEXTURE_FILTER_BILINEAR))
 
 	fontPosition := rl.NewVector2(40, float32(screenHeight/2-50))
 	textSize := rl.NewVector2(0, 0)

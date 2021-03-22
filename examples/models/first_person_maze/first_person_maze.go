@@ -37,7 +37,7 @@ func main() {
 	texture := rl.LoadTexture("../models/resources/cubicmap_atlas.png")
 	defer rl.UnloadTexture(texture)
 
-	model.Materialser(0).Mapser(rl.MAP_DIFFUSE).Texture = rl.Texture(texture)
+	model.Materialser(0).Mapser(rl.MATERIAL_MAP_DIFFUSE).Texture = rl.Texture(texture)
 
 	// mapPixels := rl.GetImageData(imMap)
 	mapPixels := rl.LoadImageColors(imMap)

@@ -44,7 +44,7 @@ func main() {
 	}()
 
 	for i := range models {
-		models[i].Materialser(0).Mapser(rl.MAP_DIFFUSE).Texture = rl.Texture(texture)
+		models[i].Materialser(0).Mapser(rl.MATERIAL_MAP_DIFFUSE).Texture = rl.Texture(texture)
 	}
 
 	camera := rl.NewCamera(

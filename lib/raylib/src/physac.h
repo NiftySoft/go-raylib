@@ -151,7 +151,8 @@ typedef struct PhysicsVertexData {
 
 typedef struct PhysicsShape {
     PhysicsShapeType type;                      // Shape type (circle or polygon)
-    PhysicsBody body;                           // Shape physics body data pointer
+    struct PhysicsBodyData *body; // cforgo
+    // PhysicsBody body;                           // Shape physics body data pointer
     PhysicsVertexData vertexData;               // Shape vertices data (used for polygon shapes)
     float radius;                               // Shape radius (used for circle shapes)
     Matrix2x2 transform;                        // Vertices transform matrix 2x2
@@ -181,8 +182,10 @@ typedef struct PhysicsBodyData {
 
 typedef struct PhysicsManifoldData {
     unsigned int id;                            // Unique identifier
-    PhysicsBody bodyA;                          // Manifold first physics body reference
-    PhysicsBody bodyB;                          // Manifold second physics body reference
+    struct PhysicsBodyData *bodyA; // cforgo
+    struct PhysicsBodyData *bodyB; // cforgo
+    // PhysicsBody bodyA;                          // Manifold first physics body reference
+    // PhysicsBody bodyB;                          // Manifold second physics body reference
     float penetration;                          // Depth of penetration from collision
     Vector2 normal;                             // Normal direction vector from 'a' to 'b'
     Vector2 contacts[2];                        // Points of contact during collision

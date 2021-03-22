@@ -33,7 +33,7 @@ func main() {
 
 	model := rl.LoadModel("../shaders/resources/models/barracks.obj")
 	texture := rl.LoadTexture("../shaders/resources/models/barracks_diffuse.png")
-	model.Materialser(0).Mapser(rl.MAP_DIFFUSE).Texture = texture
+	model.Materialser(0).Mapser(rl.MATERIAL_MAP_DIFFUSE).Texture = texture
 	defer func() {
 		rl.UnloadTexture(texture)
 		rl.UnloadModel(model)
