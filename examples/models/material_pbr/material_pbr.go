@@ -160,11 +160,11 @@ func LoadMaterialPBR(albedo rl.Color, metalness float32, roughness float32) rl.M
 	rl.SetShaderValue(shdrPrefilter, rl.GetShaderLocation(shdrPrefilter, "environmentMap"), unsafe.Pointer(&[1]int32{0}), int32(rl.SHADER_UNIFORM_INT))
 
 	texHDR := rl.LoadTexture("../models/resources/dresden_square.hdr")
-	cubemap := rl.GenTextureCubemap(shdrCubemap, texHDR, int32(CUBEMAP_SIZE), int32(rl.UNCOMPRESSED_R32G32B32))
+	cubemap := rl.RlGenTextureCubemap(shdrCubemap, texHDR, int32(CUBEMAP_SIZE), int32(rl.PIXELFORMAT_UNCOMPRESSED_R32G32B32))
 
-	mat.Mapser(int32(rl.MATERIAL_MAP_IRRADIANCE)).Texture = rl.Texture(rl.GenTextureIrradiance(shdrIrradiance, cubemap, int32(IRRADIANCE_SIZE)))
-	mat.Mapser(int32(rl.MATERIAL_MAP_PREFILTER)).Texture = rl.Texture(rl.GenTexturePrefilter(shdrPrefilter, cubemap, int32(PREFILTERED_SIZE)))
-	mat.Mapser(int32(rl.SHADER_LOC_MAP_BRDF)).Texture = rl.Texture(rl.GenTextureBRDF(shdrBRDF, int32(BRDF_SIZE)))
+	mat.Mapser(int32(rl.MATERIAL_MAP_IRRADIANCE)).Texture = rl.Texture(rl.RlGenTextureIrradiance(shdrIrradiance, cubemap, int32(IRRADIANCE_SIZE)))
+	mat.Mapser(int32(rl.MATERIAL_MAP_PREFILTER)).Texture = rl.Texture(rl.RlGenTexturePrefilter(shdrPrefilter, cubemap, int32(PREFILTERED_SIZE)))
+	mat.Mapser(int32(rl.SHADER_LOC_MAP_BRDF)).Texture = rl.Texture(rl.RlGenTextureBRDF(shdrBRDF, int32(BRDF_SIZE)))
 
 	rl.UnloadTexture(rl.Texture2D(cubemap))
 	rl.UnloadTexture(texHDR)
@@ -174,11 +174,11 @@ func LoadMaterialPBR(albedo rl.Color, metalness float32, roughness float32) rl.M
 	rl.UnloadShader(shdrPrefilter)
 	rl.UnloadShader(shdrBRDF)
 
-	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MATERIAL_MAP_ALBEDO)).Texture), int32(rl.FILTER_BILINEAR))
-	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MATERIAL_MAP_NORMAL)).Texture), int32(rl.FILTER_BILINEAR))
-	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MATERIAL_MAP_METALNESS)).Texture), int32(rl.FILTER_BILINEAR))
-	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MATERIAL_MAP_ROUGHNESS)).Texture), int32(rl.FILTER_BILINEAR))
-	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MATERIAL_MAP_OCCLUSION)).Texture), int32(rl.FILTER_BILINEAR))
+	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MATERIAL_MAP_ALBEDO)).Texture), int32(rl.TEXTURE_FILTER_BILINEAR))
+	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MATERIAL_MAP_NORMAL)).Texture), int32(rl.TEXTURE_FILTER_BILINEAR))
+	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MATERIAL_MAP_METALNESS)).Texture), int32(rl.TEXTURE_FILTER_BILINEAR))
+	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MATERIAL_MAP_ROUGHNESS)).Texture), int32(rl.TEXTURE_FILTER_BILINEAR))
+	rl.SetTextureFilter(rl.Texture2D(mat.Mapser(int32(rl.MATERIAL_MAP_OCCLUSION)).Texture), int32(rl.TEXTURE_FILTER_BILINEAR))
 
 	rl.SetShaderValue(mat.Shader, rl.GetShaderLocation(mat.Shader, "albedo.useSampler"), unsafe.Pointer(&[1]int32{1}), int32(rl.SHADER_UNIFORM_INT))
 	rl.SetShaderValue(mat.Shader, rl.GetShaderLocation(mat.Shader, "normals.useSampler"), unsafe.Pointer(&[1]int32{1}), int32(rl.SHADER_UNIFORM_INT))
@@ -194,8 +194,8 @@ func LoadMaterialPBR(albedo rl.Color, metalness float32, roughness float32) rl.M
 	mat.Mapser(int32(rl.MATERIAL_MAP_METALNESS)).Value = metalness
 	mat.Mapser(int32(rl.MATERIAL_MAP_ROUGHNESS)).Value = roughness
 	mat.Mapser(int32(rl.MATERIAL_MAP_OCCLUSION)).Value = 1.0
-	mat.Mapser(int32(rl.MAP_EMISSION)).Value = 0.5
-	mat.Mapser(int32(rl.MAP_HEIGHT)).Value = 0.5
+	mat.Mapser(int32(rl.MATERIAL_MAP_EMISSION)).Value = 0.5
+	mat.Mapser(int32(rl.MATERIAL_MAP_HEIGHT)).Value = 0.5
 
 	return mat
 }

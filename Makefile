@@ -55,7 +55,7 @@ test:
 	go build -o examples/bin/models_cubicmap examples/models/cubicmap/cubicmap.go
 	go build -o examples/bin/models_first_person_maze examples/models/first_person_maze/first_person_maze.go
 	go build -o examples/bin/models_loading examples/models/loading/loading.go
-# 	go build -o examples/bin/models_material_pbr examples/models/material_pbr/*.go
+	go build -o examples/bin/models_material_pbr examples/models/material_pbr/*.go
 	go build -o examples/bin/models_mesh_generation examples/models/mesh_generation/mesh_generation.go
 	go build -o examples/bin/models_mesh_picking examples/models/mesh_picking/mesh_picking.go
 	go build -o examples/bin/models_orthographic_projection examples/models/orthographic_projection/orthographic_projection.go
