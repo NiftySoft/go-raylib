@@ -1,3 +1,3 @@
-module github.com/chunqian/go-raylib
+module github.com/NiftySoft/go-raylib
 
 go 1.14
